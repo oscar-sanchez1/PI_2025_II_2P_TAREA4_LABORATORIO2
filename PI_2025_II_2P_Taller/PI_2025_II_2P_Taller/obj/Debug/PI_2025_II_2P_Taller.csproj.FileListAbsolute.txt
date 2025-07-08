@@ -1,0 +1,8 @@
+C:\Users\Suamy\source\repos\PI_2025_II_2P_Taller\PI_2025_II_2P_Taller\bin\Debug\PI_2025_II_2P_Taller.exe.config
+C:\Users\Suamy\source\repos\PI_2025_II_2P_Taller\PI_2025_II_2P_Taller\bin\Debug\PI_2025_II_2P_Taller.exe
+C:\Users\Suamy\source\repos\PI_2025_II_2P_Taller\PI_2025_II_2P_Taller\bin\Debug\PI_2025_II_2P_Taller.pdb
+C:\Users\Suamy\source\repos\PI_2025_II_2P_Taller\PI_2025_II_2P_Taller\obj\Debug\PI_2025_II_2P_Taller.csproj.AssemblyReference.cache
+C:\Users\Suamy\source\repos\PI_2025_II_2P_Taller\PI_2025_II_2P_Taller\obj\Debug\PI_2025_II_2P_Taller.csproj.CoreCompileInputs.cache
+C:\Users\Suamy\source\repos\PI_2025_II_2P_Taller\PI_2025_II_2P_Taller\obj\Debug\PI_2025_II_2P_Taller.exe
+C:\Users\Suamy\source\repos\PI_2025_II_2P_Taller\PI_2025_II_2P_Taller\obj\Debug\PI_2025_II_2P_Taller.pdb
+C:\Users\Suamy\source\repos\PI_2025_II_2P_Taller\PI_2025_II_2P_Taller\obj\Debug\PI_2025_II_2P_Taller.exe.config
