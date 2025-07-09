@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using PI_2025_II_IIP_LABORATORIO2.objetos;
 
-namespace PI_2025_II_IIP_LABORATORIO2.Dominio
+namespace PI_2025_II_IIP_LABORATORIO2.objetos
 {
-    public class Factura
+    public class Factura 
     {
         public string NumeroFactura { get; set; }
         public Clientes Cliente { get; set; }

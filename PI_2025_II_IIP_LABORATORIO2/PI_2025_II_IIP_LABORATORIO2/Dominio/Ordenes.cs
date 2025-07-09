@@ -1,5 +1,5 @@
-﻿using PI_2025_II_2P_taller.Objetos;
-using PI_2025_II_2P_Taller.Objetos;
+﻿
+using PI_2025_II_IIP_LABORATORIO2.objetos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static System.Console;
 
-namespace PI_2025_II_IIP_LABORATORIO2.Dominio
+namespace PI_2025_II_IIP_LABORATORIO2.objetos
 {
     public class OrdenTrabajo
     {

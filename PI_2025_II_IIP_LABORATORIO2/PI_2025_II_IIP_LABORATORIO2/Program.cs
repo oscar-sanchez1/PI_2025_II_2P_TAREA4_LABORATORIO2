@@ -4,15 +4,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static System.Console;
-using PI_2025_II_2P_taller.Objetos;
-using PI_2025_II_2P_Taller.Objetos;
-using PI_2025_II_IIP_LABORATORIO2.Dominio;
+using PI_2025_II_IIP_LABORATORIO2.objetos;
+using PI_2025_II_IIP_LABORATORIO2.Objetos;
 
-namespace PI_2025_II_IIP_LABORATORIO2
+namespace PI_2025_II_IIP_LABORATORIO2.objetos
 {
     internal class Program
     {
-        
+        static void Main(string[] args)
+        {
+
+            Menú taller = new Menú();
+                MostrarMenu(taller);
+
+        }
         static void MostrarMenu(Menú taller)
         {
             int opcion;
@@ -119,9 +124,18 @@ namespace PI_2025_II_IIP_LABORATORIO2
                         int año = int.TryParse(ReadLine(), out int a) ? a : 0;
                         Write("Accesorios (separados por coma): ");
                         string accesorios = ReadLine();
-
-                        // Suponiendo que tienes una clase Automovil que hereda de Carros
-                        var carro = new Automovil(modelo, placa, marca, color, propietario.NombreCompleto, "", tipo, año, accesorios);
+                        Write("Número de puertas: ");
+                        int numeroPuertas = int.TryParse(ReadLine(), out int np) ? np : 4;
+                        Write("Tipo de transmisión (Manual/Automática): ");
+                        string tipoTransmision = ReadLine();
+                        Write("¿Tiene aire acondicionado? (s/n): ");
+                        bool aireAcondicionado = ReadLine().ToLower() == "s";
+                        Write("Tipo de combustible: ");
+                        string tipoCombustible = ReadLine();
+                        var carro = new PI_2025_II_IIP_LABORATORIO2.objetos.Automovil(
+                            modelo, placa, marca, color, propietario.NombreCompleto,
+                            "", tipo, año, accesorios, numeroPuertas, tipoTransmision,
+                            aireAcondicionado, tipoCombustible);
                         taller.AgregarCarro(carro);
                         propietario.AgregarCarro(carro);
                         WriteLine("Carro agregado correctamente.");
@@ -140,8 +154,25 @@ namespace PI_2025_II_IIP_LABORATORIO2
                         }
                         Write("Monto total: ");
                         decimal monto = decimal.TryParse(ReadLine(), out decimal m) ? m : 0;
-                        // Suponiendo que tienes una clase Factura y método AgregarFactura
-                        var factura = new Factura(numeroFactura, clienteFactura, monto, DateTime.Now);
+                        List<Servicios> servicios = new List<Servicios>();
+                        Write("¿Desea agregar servicios? (s/n): ");
+                        if (ReadLine().ToLower() == "s")
+                        {
+                            string tipoServicio;
+                            decimal costo;
+                            do
+                            {
+                                Write("Tipo de servicio: ");
+                                tipoServicio = ReadLine();
+                                Write("Costo del servicio: ");
+                                costo = decimal.TryParse(ReadLine(), out decimal cs) ? cs : 0;
+
+                                servicios.Add(new Servicios(tipoServicio, costo));
+                                Write("¿Agregar otro servicio? (s/n): ");
+                            } while (ReadLine().ToLower() == "s");
+                        }
+                        var factura = new Factura(numeroFactura, clienteFactura, monto, DateTime.Now, servicios);
+                        
                         taller.AgregarFactura(factura);
                         WriteLine("Factura agregada correctamente.");
                         break;

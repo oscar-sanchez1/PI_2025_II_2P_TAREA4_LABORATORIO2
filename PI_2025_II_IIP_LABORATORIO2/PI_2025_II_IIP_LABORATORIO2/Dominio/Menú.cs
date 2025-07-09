@@ -1,5 +1,6 @@
-﻿using PI_2025_II_2P_taller.Objetos;
-using PI_2025_II_2P_Taller.Objetos;
+﻿
+
+using PI_2025_II_IIP_LABORATORIO2.objetos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static System.Console;
 
-namespace PI_2025_II_IIP_LABORATORIO2.Dominio
+namespace PI_2025_II_IIP_LABORATORIO2.Objetos
 {
     public class Menú
     {
@@ -93,7 +94,7 @@ namespace PI_2025_II_IIP_LABORATORIO2.Dominio
         }
 
         public void MostrarMenuPrincipal()
-        { 
+        {
             WriteLine("=== Menú Principal ===");
             WriteLine($"Clientes registrados: {clientes.Count}");
             WriteLine($"Empleados registrados: {empleados.Count}");
@@ -103,7 +104,7 @@ namespace PI_2025_II_IIP_LABORATORIO2.Dominio
             WriteLine($"Órdenes de trabajo registradas: {ordenes.Count}");
             WriteLine($"Órdenes completadas: {ordenes.Count(o => o.Estado == "Completada")}");
 
-            decimal ingresosTotales=ordenes.Where (o => o.Estado == "Completada")
+            decimal ingresosTotales = ordenes.Where(o => o.Estado == "Completada")
                                             .Sum(o => o.Servicios.Sum(s => s.CostoServicio));
             WriteLine($"Ingresos totales: {ingresosTotales:C}");
         }
@@ -121,8 +122,8 @@ namespace PI_2025_II_IIP_LABORATORIO2.Dominio
                 WriteLine($"Cosa total de servicios: {cliente.CalcularCostoTotalMantenimiento():C}");
                 cliente.MostrarTodosLosVehiculos();
             }
-        } 
-        
+        }
+
         public void MostrarTodosLosEmpleados()
         {
             if (empleados.Count == 0)
@@ -132,7 +133,7 @@ namespace PI_2025_II_IIP_LABORATORIO2.Dominio
             }
             foreach (var empleado in empleados)
             {
-                empleado.MostrarInformacion(); 
+                empleado.MostrarInformacion();
 
             }
         }
@@ -148,7 +149,7 @@ namespace PI_2025_II_IIP_LABORATORIO2.Dominio
             foreach (var material in materiales)
             {
                 material.MostrarInfoMateriales();
-                valorTotal+= material.CalcularValorTotal();
+                valorTotal += material.CalcularValorTotal();
             }
 
             WriteLine($"\nValor total de materiales: {valorTotal:C}");
@@ -183,7 +184,7 @@ namespace PI_2025_II_IIP_LABORATORIO2.Dominio
 
         public void MostrarTodasLasOrdenes()
         {
-            var ordenesActivas=ordenes.Where(o => o.Estado == "Completada").ToList();
+            var ordenesActivas = ordenes.Where(o => o.Estado == "Completada").ToList();
             if (ordenes.Count == 0)
             {
                 WriteLine("No hay órdenes de trabajo registradas.");
@@ -229,5 +230,67 @@ namespace PI_2025_II_IIP_LABORATORIO2.Dominio
         {
             return base.ToString();
         }
+
+        private List<Factura> facturas = new List<Factura>();
+
+        public void AgregarFactura(Factura factura)
+        {
+            if (factura == null)
+            {
+                Console.WriteLine("Error: La factura no puede ser nula.");
+                return;
+            }
+            if (facturas.Any(f => f.NumeroFactura == factura.NumeroFactura))
+            {
+                Console.WriteLine($"Error: Ya existe una factura con el número {factura.NumeroFactura}");
+                return;
+            }
+
+            facturas.Add(factura);
+            Console.WriteLine($"Factura {factura.NumeroFactura} agregada correctamente.");
+        }
+
+        public Factura BuscarFacturaPorNumero(string numeroFactura)
+        {
+            if (string.IsNullOrEmpty(numeroFactura))
+            {
+                Console.WriteLine("Error: El número de factura no puede estar vacío.");
+                return null;
+            }
+
+            var factura = facturas.FirstOrDefault(f => f.NumeroFactura.Equals(numeroFactura, StringComparison.OrdinalIgnoreCase));
+
+            if (factura == null)
+            {
+                Console.WriteLine($"No se encontró ninguna factura con el número {numeroFactura}");
+            }
+
+            return factura;
+        }
+
+        public void MostrarTodasLasFacturas()
+        {
+            Console.WriteLine("\n" + new string('=', 50));
+            Console.WriteLine("           TODAS LAS FACTURAS");
+            Console.WriteLine(new string('=', 50));
+
+            if (facturas.Count == 0)
+            {
+                Console.WriteLine("No hay facturas registradas.");
+                return;
+            }
+
+            for (int i = 0; i < facturas.Count; i++)
+            {
+                Console.WriteLine($"\n--- FACTURA {i + 1} ---");
+                facturas[i].MostrarFactura();
+                Console.WriteLine(new string('-', 40));
+            }
+
+            Console.WriteLine($"\nTotal de facturas: {facturas.Count}");
+            Console.WriteLine($"Monto total acumulado: {facturas.Sum(f => f.MontoTotal):C}");
+        }
+
+
     }
 }

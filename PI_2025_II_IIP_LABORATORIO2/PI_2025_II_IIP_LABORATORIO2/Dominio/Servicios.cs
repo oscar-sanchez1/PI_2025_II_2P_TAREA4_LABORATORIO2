@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using static System.Console;
+using PI_2025_II_IIP_LABORATORIO2.objetos;
 
-namespace PI_2025_II_2P_Taller.Objetos
+
+namespace PI_2025_II_IIP_LABORATORIO2.objetos
 {
     public class Servicios
     {
@@ -35,6 +37,16 @@ namespace PI_2025_II_2P_Taller.Objetos
             this.fechaIngreso = fechaIngreso;
             this.fechaSalida = fechaSalida;
             this.materialUtilizado = materialUtilizado;
+        }
+
+        public Servicios(string tipoServicio, decimal costoServicio)
+        {
+            this.tipoServicio = tipoServicio;
+            this.costoServicio = costoServicio;
+            this.empleadoAsignado = "N/A";
+            this.fechaIngreso = DateTime.Now;
+            this.fechaSalida = DateTime.Now;
+            this.materialUtilizado = "N/A";
         }
 
         // Crear servicio (desde consola)

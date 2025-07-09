@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static System.Console;
+using PI_2025_II_IIP_LABORATORIO2.objetos;
 
-namespace PI_2025_II_2P_taller.Objetos
-{
+namespace PI_2025_II_IIP_LABORATORIO2.objetos
+{ 
     public class Clientes
     {
         // Propiedades
@@ -24,7 +25,14 @@ namespace PI_2025_II_2P_taller.Objetos
         public Clientes(string pPrimerNombre, string pSegundoNombre, string pPrimerApellido, string pSegundoApellido,
             int pEdad, string pNacionalidad, string pSexo, string pDNI)
         {
-
+            PrimerNombre = pPrimerNombre;
+            SegundoNombre = pSegundoNombre;
+            PrimerApellido = pPrimerApellido;
+            SegundoApellido = pSegundoApellido;
+            Edad = pEdad;
+            Nacionalidad = pNacionalidad;
+            Sexo = pSexo;
+            DNI = pDNI;
             CarrosCliente = new List<Carros>();
         }
 
@@ -88,6 +96,11 @@ namespace PI_2025_II_2P_taller.Objetos
             $"Sexo: {Sexo}";
         
 
+}
+
+
+   
+
     }
 
-}
+

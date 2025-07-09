@@ -4,8 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static System.Console;
+using PI_2025_II_IIP_LABORATORIO2.objetos;
 
-namespace PI_2025_II_2P_taller.Objetos
+namespace PI_2025_II_IIP_LABORATORIO2.objetos
 {
     public class Empleado
     {
