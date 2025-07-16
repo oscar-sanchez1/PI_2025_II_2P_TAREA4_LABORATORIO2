@@ -1,41 +1,93 @@
 ﻿using System;
 using System.Collections.Generic;
 using PI_2025_II_IIP_LABORATORIO2.objetos;
+using static System.Console;
 
 namespace PI_2025_II_IIP_LABORATORIO2.objetos
 {
-    public class Factura 
+    public class Factura
     {
-        public string NumeroFactura { get; set; }
-        public Clientes Cliente { get; set; }
-        public decimal MontoTotal { get; set; }
-        public DateTime FechaEmision { get; set; }
-        public List<Servicios> ServiciosFacturados { get; set; }
+        //DECLARACION DE CRACTERISTICAS
+        //public string PrimerNombre { get; set; }
+        public string cliente { get; set; }
+        public List<Servicios> servicios { get; set; } = new List<Servicios>();
+        public string dni { get; set; }
+        public string rtn { get; set; } = "CONSUMIDOR FINAL";
+        public double impuesto { get; set; } = 0.15; // 15% de impuesto
+        public DateTime fecha { get; set; } = DateTime.Now;
+        public CAI cai { get; set; }
+        public double subTotal { get; set; } = 0;
+        public double total { get; set; } = 0;
+        public double descuento { get; set; } = 0; // Descuento por pronto pago
+        public string empleado { get; set; }
 
-        public Factura(string numeroFactura, Clientes cliente, decimal montoTotal, DateTime fechaEmision, List<Servicios> serviciosFacturados = null)
+        //CONSTRUCTOR
+        public Factura(string pCliente, string pDni, CAI pCai, string pEmpleado)
         {
-            NumeroFactura = numeroFactura;
-            Cliente = cliente;
-            MontoTotal = montoTotal;
-            FechaEmision = fechaEmision;
-            ServiciosFacturados = serviciosFacturados ?? new List<Servicios>();
+            cliente = pCliente;
+            dni = pDni;
+            cai = pCai;
+            empleado = pEmpleado;
+
         }
 
-        public void MostrarFactura()
+        //METODOS
+        public void mostrarFactura()
         {
-            Console.WriteLine("=== FACTURA ===");
-            Console.WriteLine($"Número: {NumeroFactura}");
-            Console.WriteLine($"Cliente: {Cliente?.NombreCompleto}");
-            Console.WriteLine($"Fecha: {FechaEmision:dd/MM/yyyy}");
-            Console.WriteLine($"Monto total: {MontoTotal:C}");
-            if (ServiciosFacturados != null && ServiciosFacturados.Count > 0)
+
+
+
+
+            WriteLine("------FACTURA------");
+            WriteLine($"{cai.NombreNegocio})");
+            WriteLine($"{cai.RtnNegocio}");
+            WriteLine($"{cliente}");
+            WriteLine($"{cai.GenerarNumeroFactura()}");
+            WriteLine($"{fecha.ToString()}");
+            foreach (var servicio in servicios)
             {
-                Console.WriteLine("Servicios:");
-                foreach (var servicio in ServiciosFacturados)
-                {
-                    Console.WriteLine($"- {servicio.TipoServicio} ({servicio.CostoServicio:C})");
-                }
+                WriteLine($"{servicio.TipoServicio} ------ {servicio.CostoServicio}");
             }
+            WriteLine($"Subtotal: {calcularSubtotal()}");
+            if (descuento > 0)
+            {
+                WriteLine($"Descuento: {descuento}");
+            }
+            else
+            {
+                WriteLine("NO APLICA DESCUENTO");
+            }
+
+
+            WriteLine($"IMPUESTO: {(impuesto * 100).ToString()}%");
+            WriteLine($"Total: {calcularTotal()}");
+            WriteLine($"Servicio realizado por: {empleado}");
+
         }
+        private double calcularSubtotal()
+        {
+            foreach (var servicio in servicios)
+            {
+
+                this.subTotal = this.subTotal + servicio.CostoServicio;
+            }
+            return this.subTotal;
+        }
+        private double calcularTotal()
+        {
+            this.total = this.subTotal * (1.0 + this.impuesto);
+            return this.total;
+        }
+
     }
+
+
+
+
+
+
+
 }
+
+
+

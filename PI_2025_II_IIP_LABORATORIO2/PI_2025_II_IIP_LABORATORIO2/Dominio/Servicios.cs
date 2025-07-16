@@ -3,134 +3,126 @@ using System.Collections.Generic;
 using static System.Console;
 using PI_2025_II_IIP_LABORATORIO2.objetos;
 
+// Interfaz para polimorfismo
+public interface IResumenServicio
+{
+    void ResumenServicio();
+}
+
+// Clase base para herencia (Herencia simbólica o futura extensión)
+public class OperacionTaller
+{
+    public virtual void MostrarOperacion()
+    {
+        WriteLine("OPERACIÓN DEL TALLER EN EJECUCIÓN.");
+    }
+}
 
 namespace PI_2025_II_IIP_LABORATORIO2.objetos
 {
-    public class Servicios
+    public class Servicios : OperacionTaller, IResumenServicio
     {
-        // Atributos privados
-        private string tipoServicio;
-        private decimal costoServicio;
-        private string empleadoAsignado;
-        private DateTime fechaIngreso;
-        private DateTime fechaSalida;
-        private string materialUtilizado;
-
-        // Lista para almacenar servicios
-        private static List<Servicios> listaServicios = new List<Servicios>();
-
-        // Propiedades
-        public string TipoServicio { get => tipoServicio; set => tipoServicio = value; }
-        public decimal CostoServicio { get => costoServicio; set => costoServicio = value; }
-        public string EmpleadoAsignado { get => empleadoAsignado; set => empleadoAsignado = value; }
-        public DateTime FechaIngreso { get => fechaIngreso; set => fechaIngreso = value; }
-        public DateTime FechaSalida { get => fechaSalida; set => fechaSalida = value; }
-        public string MaterialUtilizado { get => materialUtilizado; set => materialUtilizado = value; }
+        // Encapsulamiento con propiedades públicas y campos internos protegidos
+        public string TipoServicio { get; set; }
+        public double CostoServicio { get; set; }
+        public Empleado EmpleadoServicio { get; set; }
+        public Clientes ClienteServicio { get; set; }
+        public Automovil AutomovilServicio { get; set; }
+        public DateTime FechaIngreso { get; set; }
+        public DateTime FechaSalida { get; set; }
+        public List<Materiales> MaterialUsado { get; set; } = new List<Materiales>();
+        public bool EstaFinalizado { get; private set; } = false;
+        public int CodigoServicio { get; private set; }
 
         // Constructor
-        public Servicios(string tipoServicio, decimal costoServicio, string empleadoAsignado,
-                         DateTime fechaIngreso, DateTime fechaSalida, string materialUtilizado)
+        public Servicios(string tipo, double costo, Empleado emp, Clientes cli, Automovil auto, DateTime ingreso, DateTime salida)
         {
-            this.tipoServicio = tipoServicio;
-            this.costoServicio = costoServicio;
-            this.empleadoAsignado = empleadoAsignado;
-            this.fechaIngreso = fechaIngreso;
-            this.fechaSalida = fechaSalida;
-            this.materialUtilizado = materialUtilizado;
+            TipoServicio = tipo;
+            CostoServicio = costo;
+            EmpleadoServicio = emp;
+            ClienteServicio = cli;
+            AutomovilServicio = auto;
+            FechaIngreso = ingreso;
+            FechaSalida = salida;
+            CodigoServicio = GenerarCodigoUnico();
+            WriteLine("SERVICIO TRABAJANDOSE");
         }
 
-        public Servicios(string tipoServicio, decimal costoServicio)
+        private static int contador = 1;
+        private int GenerarCodigoUnico()
         {
-            this.tipoServicio = tipoServicio;
-            this.costoServicio = costoServicio;
-            this.empleadoAsignado = "N/A";
-            this.fechaIngreso = DateTime.Now;
-            this.fechaSalida = DateTime.Now;
-            this.materialUtilizado = "N/A";
+            return contador++;
         }
 
-        // Crear servicio (desde consola)
-        public static void CrearServicio()
+        public void FinalizarServicio()
+        {
+            if (!EstaFinalizado)
+            {
+                EstaFinalizado = true;
+                WriteLine("SERVICIO FINALIZADO CON ÉXITO");
+            }
+            else
+            {
+                WriteLine("EL SERVICIO YA ESTÁ FINALIZADO");
+            }
+        }
+
+        public void CalcularCostoConISV()
         {
             try
             {
-                Write("INGRESE EL TIPO DE SERVICIO: ");
-                string tipo = ReadLine();
-
-                Write("INGRESE EL COSTO DEL SERVICIO: ");
-                decimal costo = Convert.ToDecimal(ReadLine());
-
-                Write("INGRESE EL EMPLEADO ASIGNADO: ");
-                string empleado = ReadLine();
-
-                Write("INGRESE LA FECHA DE INGRESO (YYYY-MM-DD): ");
-                DateTime fechaIng = DateTime.Parse(ReadLine());
-
-                Write("INGRESE LA FECHA DE SALIDA (YYYY-MM-DD): ");
-                DateTime fechaSal = DateTime.Parse(ReadLine());
-
-                Write("INGRESE EL MATERIAL UTILIZADO: ");
-                string material = ReadLine();
-
-                Servicios nuevoServicio = new Servicios(tipo, costo, empleado, fechaIng, fechaSal, material);
-                listaServicios.Add(nuevoServicio);
-
-                WriteLine("SERVICIO CREADO CON ÉXITO.");
+                double impuesto = CostoServicio * 0.15;
+                CostoServicio += impuesto;
+                WriteLine("SE CALCULÓ EL IMPUESTO DEL 15%");
             }
-            catch (FormatException ex)
+            catch (Exception e)
             {
-                WriteLine($"ERROR DE FORMATO: {ex.Message.ToUpper()}");
-            }
-            catch (Exception ex)
-            {
-                WriteLine($"ERROR AL CREAR SERVICIO: {ex.Message.ToUpper()}");
+                WriteLine("ERROR AL CALCULAR EL ISV");
+                WriteLine(e.Message.ToUpper());
             }
         }
 
-        // Buscar servicio por tipo
-        public static void BuscarServicio()
+        public void ElServicioDuraMasDeUnDia()
         {
-            Write("INGRESE EL TIPO DE SERVICIO A BUSCAR: ");
-            string buscar = ReadLine();
-
-            foreach (Servicios s in listaServicios)
+            try
             {
-                if (s.TipoServicio.Equals(buscar, StringComparison.OrdinalIgnoreCase))
+                TimeSpan duracion = FechaSalida - FechaIngreso;
+                if (duracion.TotalDays >= 1)
                 {
-                    s.ImprimirServicio();
-                    return;
+                    WriteLine("EL SERVICIO DURÓ MÁS DE UN DÍA");
+                }
+                else
+                {
+                    WriteLine("EL SERVICIO FUE REALIZADO EN EL MISMO DÍA");
                 }
             }
-
-            WriteLine("SERVICIO NO ENCONTRADO.");
-        }
-
-        // Imprimir todos los servicios
-        public static void ImprimirTodos()
-        {
-            if (listaServicios.Count == 0)
+            catch (Exception e)
             {
-                WriteLine("NO HAY SERVICIOS REGISTRADOS.");
-                return;
-            }
-
-            foreach (Servicios s in listaServicios)
-            {
-                s.ImprimirServicio();
+                WriteLine("ERROR AL CALCULAR LA DURACIÓN DEL SERVICIO");
+                WriteLine(e.Message.ToUpper());
             }
         }
 
-        // Imprimir servicio individual
-        public void ImprimirServicio()
+        // Polimorfismo (implementación del método de la interfaz)
+        public void ResumenServicio()
         {
-            WriteLine("---------------------------");
-            WriteLine($"TIPO DE SERVICIO: {tipoServicio.ToUpper()}");
-            WriteLine($"COSTO: {costoServicio:C}");
-            WriteLine($"EMPLEADO ASIGNADO: {empleadoAsignado.ToUpper()}");
-            WriteLine($"FECHA DE INGRESO: {fechaIngreso:d}");
-            WriteLine($"FECHA DE SALIDA: {fechaSalida:d}");
-            WriteLine($"MATERIAL UTILIZADO: {materialUtilizado}");
-            WriteLine("---------------------------");
+            WriteLine("==== RESUMEN DEL SERVICIO ====");
+            WriteLine($"CÓDIGO: {CodigoServicio}");
+            WriteLine($"TIPO: {TipoServicio}");
+            WriteLine($"CLIENTE: {ClienteServicio.NombreCompleto}");
+            WriteLine($"EMPLEADO: {EmpleadoServicio.Nombre}");
+            WriteLine($"AUTO: {AutomovilServicio.Marca} - {AutomovilServicio.Placa}");
+            WriteLine($"FECHA INGRESO: {FechaIngreso.ToShortDateString()}");
+            WriteLine($"FECHA SALIDA: {FechaSalida.ToShortDateString()}");
+            WriteLine($"COSTO TOTAL CON ISV: L {CostoServicio:F2}");
+            WriteLine($"ESTADO: {(EstaFinalizado ? "FINALIZADO" : "EN PROCESO")}");
+            WriteLine("==============================");
+        }
+
+        // Herencia (override de método base)
+        public override void MostrarOperacion()
+        {
+            WriteLine("SE ESTÁ REALIZANDO UN SERVICIO DE TALLER.");
         }
     }
 }
