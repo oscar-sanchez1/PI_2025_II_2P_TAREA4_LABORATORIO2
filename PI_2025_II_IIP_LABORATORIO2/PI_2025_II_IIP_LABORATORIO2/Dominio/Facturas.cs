@@ -78,6 +78,7 @@ namespace PI_2025_II_IIP_LABORATORIO2.objetos
             this.total = this.subTotal * (1.0 + this.impuesto);
             return this.total;
         }
+//
 
     }
 
